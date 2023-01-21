@@ -35,6 +35,7 @@ const Line = styled.div`
   height: 1em;
   overflow: hidden;
   margin: 1em 0;
+  padding-bottom: 2px;
   animation: ${scroll} ${props => props.time || 10}s linear infinite;
 `
 const Shadow = styled.div`

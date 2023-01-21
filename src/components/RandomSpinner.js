@@ -87,6 +87,7 @@ const timing = {
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
+  max-width: 600px;
   padding: 3em;
   text-align: center;
   display: flex;
@@ -125,4 +126,5 @@ const Highlight = styled.div`
   font-size: 3em;
   height: 1em;
   margin: 1em 0;
+  width: 100%;
 `
