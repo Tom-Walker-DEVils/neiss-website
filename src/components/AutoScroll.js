@@ -12,6 +12,7 @@ export default function AutoScroll({ items, time }) {
         <Line key={key} time={time} h={height}>{item}</Line>
       ))}
       <Line time={time} h={height}>{items[0]}</Line>
+      <Shadow />
     </Window>
   )
 }
@@ -25,8 +26,9 @@ const scroll = keyframes`
   }
 `
 const Window = styled.div`
+  position: relative;
   overflow: hidden;
-  height: 3em;
+  height: 4em;
 `
 const Line = styled.div`
   font-size: 2em;
@@ -34,4 +36,14 @@ const Line = styled.div`
   overflow: hidden;
   margin: 1em 0;
   animation: ${scroll} ${props => props.time || 10}s linear infinite;
+`
+const Shadow = styled.div`
+  box-shadow:
+    inset 0px 1em 0.5em #111,
+    inset 0px -1em 0.5em #111;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
 `
