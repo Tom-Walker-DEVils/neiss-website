@@ -124,8 +124,10 @@ const Modal = styled.div`
   background-color: #000;
 `
 const Highlight = styled.div`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   font-size: 3em;
   height: 1em;
   margin: 1em 0;
-  width: 100%;
 `
