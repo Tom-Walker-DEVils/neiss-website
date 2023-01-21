@@ -1,21 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import fetchDb, { fetchDbSample } from '@lib/db'
+import { fetcher } from '@lib/api'
 
 import config from '@lib/config'
 
 export default async function handler(req, res) {
-  const { body = {} } = req
-  const { limit = 1 } = body
-  const dbName = config.db.name
-  const collection = 'records'
-
   let data = {}
   try {
-    data = await fetchDbSample({
-      dbName,
-      collection,
-      limit,
+    data = await fetcher(config.externalApi.url, {
+      method: 'GET',
+      type: 'text/html',
     })
   } catch (e) {
     console.error('db', e)

@@ -1,7 +1,6 @@
 import config from '@lib/config'
 
-export default function apiFetcher(base, options, setData) {
-  const url = getApiUrl(base)
+export default function apiFetcher(url, options, setData) {
   const fetchData = async () => {
     const data = await fetcher(url, options)
     setData(data)
@@ -10,23 +9,38 @@ export default function apiFetcher(base, options, setData) {
 }
 
 export const fetcher = async (url, options = {}) => {
-  const response = await fetch(url, {
-    method: 'POST',
+
+  const {
+    method='POST',
+    type = 'application/json',
+    body
+  } = options
+
+  let fetchOptions = {
+    method,
+    redirect: 'follow',
     headers: {
-      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Content-Type': type,
     },
-    body: JSON.stringify(options),
-  })
-  const data = await response.json()
+  }
+  if(method === 'POST' && body) {
+    fetchOptions = {
+      ...fetchOptions,
+      body: JSON.stringify(body),
+    }
+  }
+
+  const response = await fetch(url, fetchOptions)
+
+  let data
+  switch(type) {
+    case 'application/json':
+      data = await response.json()
+      break;
+    default:
+      data = await response.text()
+  }
 
   return data
-}
-
-export const getApiUrl = (path = '') => {
-  let parts = [
-    config.api.url,
-  ]
-  parts = (path) ? [...parts,path] : parts
-
-  return parts.join('/')
 }
