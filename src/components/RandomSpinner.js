@@ -18,7 +18,7 @@ export default function RandomSpinner() {
   const [data, setData] = React.useState({})
   React.useEffect(() => {
     apiFetcher('records/random', { limit }, setData)
-  }, [])
+  }, [limit])
 
   const [records, setRecords] = React.useState([])
   const [text, setText] = React.useState([])
@@ -88,6 +88,7 @@ const Container = styled.div`
   height: 100vh;
   width: 100vw;
   max-width: 600px;
+  margin: 0 auto;
   padding: 3em;
   text-align: center;
   display: flex;
