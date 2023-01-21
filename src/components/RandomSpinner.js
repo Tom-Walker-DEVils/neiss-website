@@ -18,11 +18,14 @@ export default function RandomSpinner() {
 
   const [fetchedRecords, setFetchedRecords] = React.useState({})
   React.useEffect(() => {
-    apiFetcher(`${config.api.url}/records/random`, {
-      body: {
-        limit
-      }
+    apiFetcher(`${config.api.url}/records/scott?count=20`, {
     }, setFetchedRecords)
+
+    // apiFetcher(`${config.api.url}/records/random`, {
+    //   body: {
+    //     limit
+    //   }
+    // }, setFetchedRecords)
   }, [limit])
 
   const [fetchedResult, setFetchedResult] = React.useState('')
@@ -39,17 +42,14 @@ export default function RandomSpinner() {
   React.useEffect(() => {
     const { results, count } = fetchedRecords
     if(results && count) {
-      setRecords(results.map(r => r.narrative_1))
+      setRecords(results)
     }
   }, [fetchedRecords])
 
   React.useEffect(() => {
-    setResult(fetchedResult)
+    const { results, count } = fetchedResult
+    setResult(results)
   }, [fetchedResult])
-  // React.useEffect(() => {
-  //   const index = Math.floor(Math.random() * limit)
-  //   setResult(records[index])
-  // }, [records, limit])
 
   const handleClick = () => {
     setTime(timing.fast)
@@ -65,7 +65,7 @@ export default function RandomSpinner() {
 
   return (
     <Container>
-      <AutoScroll items={records} time={time} blur={true} />
+      <AutoScroll items={records} time={time} blur={false} />
       <Button onClick={handleClick}>{`Go!`}</Button>
       <Result text={result} open={open} />
     </Container>

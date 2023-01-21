@@ -5,15 +5,24 @@ import { fetcher } from '@lib/api'
 import config from '@lib/config'
 
 export default async function handler(req, res) {
+  const { query } = req
+  const { count = 1 } = query
+
   let data = {}
   try {
-    data = await fetcher(config.externalApi.url, {
+    data = await fetcher(`${config.externalApi.url}?count=${count}`, {
       method: 'GET',
       type: 'text/html',
     })
+    if(count > 1) {
+      data = JSON.parse(data)
+    }
   } catch (e) {
     console.error('db', e)
   }
 
-  return res.status(200).json(data)
+  return res.status(200).json({
+    results: data,
+    count,
+  })
 }
