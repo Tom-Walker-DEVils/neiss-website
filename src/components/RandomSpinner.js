@@ -63,19 +63,16 @@ export default function RandomSpinner() {
   }
 
   return (
-    <>
-      <Container>
-        { open ? (
-          <Result text={result} />
-        ) : (
-          <>
-            <AutoScroll items={records} seconds={animationSeconds} blur={false} />
-            <Button onClick={handleClick}>{`Go!`}</Button>
-          </>
-        )}
-      </Container>
-      <Credits />
-    </>
+    <Container>
+      { open ? (
+        <Result text={result} />
+      ) : (
+        <>
+          <AutoScroll items={records} seconds={animationSeconds} blur={false} />
+          <Button onClick={handleClick}>{`Go!`}</Button>
+        </>
+      )}
+    </Container>
   )
 }
 
@@ -94,20 +91,6 @@ function Result({ text }) {
       <Highlight>{text}</Highlight>
       <Button onClick={handleRefresh}>{`Again!`}</Button>
     </>
-  )
-}
-
-function Credits() {
-  return (
-    <p style={{
-      textAlign: 'center',
-      fontFamily: 'sans-serif',
-      fontSize: '12px',
-      padding: '12px',
-      color: '#aaa',
-    }}>
-      App by <strong>s_meeps</strong> / API by <strong>ScottDev</strong> / <a href="https://discord.gg/NGpC3hhD" target="_blank" rel="noreferrer"><strong>Contact</strong></a>
-    </p>
   )
 }
 
