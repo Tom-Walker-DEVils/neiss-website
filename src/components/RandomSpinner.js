@@ -13,30 +13,29 @@ import Confetti from 'react-confetti'
 
 import styled, { keyframes } from 'styled-components'
 
+const timing = {
+  stop: 0,
+  slow: 20,
+  fast: 1,
+  spin: 2,
+}
+
 export default function RandomSpinner() {
   const limit = config.random.limit
 
   const [fetchedRecords, setFetchedRecords] = React.useState({})
   React.useEffect(() => {
-    apiFetcher(`${config.api.url}/records/scott?count=20`, {
-    }, setFetchedRecords)
-
-    // apiFetcher(`${config.api.url}/records/random`, {
-    //   body: {
-    //     limit
-    //   }
-    // }, setFetchedRecords)
+    apiFetcher(`${config.api.url}/records/scott?count=20`, {}, setFetchedRecords)
   }, [limit])
 
   const [fetchedResult, setFetchedResult] = React.useState('')
   React.useEffect(() => {
-    apiFetcher(`${config.api.url}/records/scott`, {
-    }, setFetchedResult)
+    apiFetcher(`${config.api.url}/records/scott`, {}, setFetchedResult)
   }, [])
 
   const [records, setRecords] = React.useState([])
   const [result, setResult] = React.useState('')
-  const [time, setTime] = React.useState(timing.slow)
+  const [animationSeconds, setAnimationSeconds] = React.useState(timing.slow)
   const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -52,9 +51,9 @@ export default function RandomSpinner() {
   }, [fetchedResult])
 
   const handleClick = () => {
-    setTime(timing.fast)
+    setAnimationSeconds(timing.fast)
     setTimeout(() => {
-      setTime(timing.slow)
+      setAnimationSeconds(timing.slow)
       setOpen(true)
     }, timing.spin * 1000)
   }
@@ -65,14 +64,19 @@ export default function RandomSpinner() {
 
   return (
     <Container>
-      <AutoScroll items={records} time={time} blur={false} />
-      <Button onClick={handleClick}>{`Go!`}</Button>
-      <Result text={result} open={open} />
+      { open ? (
+        <Result text={result} />
+      ) : (
+        <>
+          <AutoScroll items={records} seconds={animationSeconds} blur={false} />
+          <Button onClick={handleClick}>{`Go!`}</Button>
+        </>
+      )}
     </Container>
   )
 }
 
-function Result({ text, open }) {
+function Result({ text }) {
   const router = useRouter()
 
   const handleRefresh = () => {
@@ -83,22 +87,11 @@ function Result({ text, open }) {
 
   return (
     <>
-    { open ? (
-      <Modal>
-        <Confetti />
-        <Highlight>{text}</Highlight>
-        <Button onClick={handleRefresh}>{`Again!`}</Button>
-      </Modal>
-    ):('')}
+      <Confetti />
+      <Highlight>{text}</Highlight>
+      <Button onClick={handleRefresh}>{`Again!`}</Button>
     </>
   )
-}
-
-const timing = {
-  stop: 0,
-  slow: 15,
-  fast: 1,
-  spin: 3,
 }
 
 const loading = keyframes`
@@ -107,7 +100,7 @@ const loading = keyframes`
   to { opacity: 1; }
 `
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   max-width: 600px;
   margin: 0 auto;
@@ -132,24 +125,18 @@ const Button = styled.button`
   }
 `
 const Modal = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 3em;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  background-color: #000;
+  background-color: #111;
 `
 const Highlight = styled.div`
   width: 100%;
   font-size: 3em;
-  height: 1em;
-  margin: 1em 0;
+  margin-bottom: 1em;
 `
 const Loading = styled.div`
   display: flex;

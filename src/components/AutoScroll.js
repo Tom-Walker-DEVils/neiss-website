@@ -2,16 +2,16 @@
 
 import styled, { keyframes } from 'styled-components'
 
-export default function AutoScroll({ items, time, blur=false }) {
+export default function AutoScroll({ items, seconds, blur=false }) {
   const count = items.length
   const height = `${count * 2}em`
 
   return (
     <Window h={height}>
       {items.map((item, key) => (
-        <Line key={key} time={time} h={height} blur={blur}>{item}</Line>
+        <Line key={key} seconds={seconds} h={height} blur={blur}>{item}</Line>
       ))}
-      <Line time={time} h={height} blur={blur}>{items[0]}</Line>
+      <Line seconds={seconds} h={height} blur={blur}>{items[0]}</Line>
       <Shadow />
     </Window>
   )
@@ -36,7 +36,7 @@ const Line = styled.div`
   overflow: hidden;
   margin: 1em 0;
   padding-bottom: 2px;
-  animation: ${scroll} ${props => props.time || 10}s linear infinite;
+  animation: ${scroll} ${props => props.seconds || 10}s linear infinite;
   filter: ${props => props.blur ? 'blur(3px)' : ''};
 `
 const Shadow = styled.div`
