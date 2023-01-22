@@ -12,8 +12,9 @@ body {
 }
 
 body {
-  color: #eee;
+  color: #ccc;
   background-color: #111;
+  text-align: center;
 }
 
 a {
