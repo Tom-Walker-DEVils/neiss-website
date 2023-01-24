@@ -47,7 +47,9 @@ export default function RandomSpinner() {
 
   React.useEffect(() => {
     const { results, count } = fetchedResult
-    setResult(results)
+    if(results && results.length) {
+      setResult(results[0])
+    }
   }, [fetchedResult])
 
   const handleClick = () => {
